@@ -19,11 +19,12 @@ public class FilmeController {
         this.filmeService = filmeService;
     }
 
-    @GetMapping("/filmes/todos")
-    public Page<TmdbFilme> getTodosFilme(
+    @GetMapping("/filmes")
+    public ResponseEntity<Page<TmdbFilme>> getTodosFilme(
             @RequestParam(defaultValue = "1") Integer page
     ) {
-        return filmeService.buscarTodosFilmes(page);
+        Page<TmdbFilme> filmes = filmeService.buscarTodosFilmes(page);
+        return ResponseEntity.ok(filmes);
     }
 
     @GetMapping("/genres")
@@ -33,11 +34,12 @@ public class FilmeController {
     }
 
     @GetMapping
-    public Page<TmdbFilme> buscarPorTitulo(
+    public ResponseEntity<Page<TmdbFilme>> buscarPorTitulo(
             @RequestParam String titulo,
             @RequestParam(defaultValue = "1") Integer page
     ) {
-        return filmeService.buscarFilmePorTitulo(titulo, page);
+        Page<TmdbFilme> filmes = filmeService.buscarFilmePorTitulo(titulo, page);
+        return ResponseEntity.ok(filmes);
     }
 
     @PostMapping("/favorito")
