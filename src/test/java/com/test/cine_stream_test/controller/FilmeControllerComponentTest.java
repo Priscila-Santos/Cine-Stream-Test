@@ -1,5 +1,6 @@
 package com.test.cine_stream_test.controller;
 
+import com.test.cine_stream_test.service.UsuarioService;
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
@@ -30,6 +31,9 @@ public class FilmeControllerComponentTest {
     @Mock
     private FilmeService filmeService;
 
+    @Mock
+    private UsuarioService usuarioService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,13 +54,9 @@ public class FilmeControllerComponentTest {
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 // Então
-                .andDo(
-                        MockMvcResultHandlers.print()
-                ).andExpect(
-                        MockMvcResultMatchers.status().isOk()
-                ).andExpect(
-                        MockMvcResultMatchers.jsonPath("$.results[0].title").value("Inception")
-                );
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.results[0].title").value("Inception"));
     }
 
     @Test
