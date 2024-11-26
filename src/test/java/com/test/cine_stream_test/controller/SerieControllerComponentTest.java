@@ -1,9 +1,9 @@
 package com.test.cine_stream_test.controller;
 
+
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.test.cine_stream_test.dto.request.UsuarioRequest;
-import com.test.cine_stream_test.dto.response.UsuarioResponse;
+import com.test.cine_stream_test.tmdbapi.dto.response.Page;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class UsuarioControllerIntegrationTest {
+class SerieControllerComponentTest {
 
     @LocalServerPort
     private int port;
@@ -42,22 +42,20 @@ class UsuarioControllerIntegrationTest {
     }
 
     @Test
-    void criarUsuario_deveRetornarUsuarioCriado() {
+    void getTodasSeries_deveRetornarListaDeSeries() {
         // dado
-        UsuarioRequest request = new UsuarioRequest();
-        request.setEmail("teste@example.com");
-        request.setNome("Teste");
-        //request.setSenha("senha123");
+        stubFor(get(urlPathEqualTo("/discover/serie"))
+                .willReturn(aResponse()
+                        .withStatus(200)
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{\"page\":1,\"results\":[{\"id\":1,\"name\":\"Serie Exemplo\",\"overview\":\"Descrição da Serie\",\"poster_path\":\"/caminho/do/poster.jpg\"}],\"total_pages\":1,\"total_results\":1}")));
 
         // quando
-        ResponseEntity<UsuarioResponse> response = restTemplate.postForEntity("http://localhost:" + port + "/api/usuarios", request, UsuarioResponse.class);
+        ResponseEntity<Page> response = restTemplate.getForEntity("http://localhost:" + port + "/api/series/todos?page=1", Page.class);
 
         // então
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals("teste@example.com", response.getBody().getEmail());
+        assertEquals(1, response.getBody().getResults().size());
     }
-
-    // Outros testes para os endpoints
 }
-
