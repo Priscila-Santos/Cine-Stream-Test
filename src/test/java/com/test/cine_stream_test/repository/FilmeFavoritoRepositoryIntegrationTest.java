@@ -1,87 +1,84 @@
 package com.test.cine_stream_test.repository;
 
 import com.test.cine_stream_test.model.FilmeFavorito;
+import com.test.cine_stream_test.model.Usuario;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @DataJpaTest
 public class FilmeFavoritoRepositoryIntegrationTest {
 
-    @Autowired
+     @Autowired
     private FilmeFavoritoRepository filmeFavoritoRepository;
+
+     private FilmeFavorito filmeFavorito;
+
+     private Usuario usuario;
+
+     @Autowired
+     private TestEntityManager testEntityManager;
 
     @BeforeEach
     public void setUp() {
-        filmeFavoritoRepository.deleteAll();
+         usuario = new Usuario();
+         usuario.setNome("Usuario");
+         usuario.setEmail("usuario@email.com");
+         usuario = testEntityManager.persistAndFlush(usuario);
+
+         filmeFavorito = new FilmeFavorito();
+         filmeFavorito.setUsuario(usuario);
+         filmeFavorito.setTmdbId(101L);
+         filmeFavorito = filmeFavoritoRepository.save(filmeFavorito);
     }
 
-    @AfterEach
-    public void tearDown() {
-        filmeFavoritoRepository.deleteAll();
+     @AfterEach
+    public void destroy() {
+         filmeFavoritoRepository.deleteAll();
     }
 
-    @Test
-    public void quandoSalvarFilmeFavorito_entaoDeveRetornarFilmeFavoritoSalvo() {
-        // Dado
-        FilmeFavorito filmeFavorito = new FilmeFavorito();
-        filmeFavorito.setId(1L);
-        filmeFavorito.setTmdbId(1L);
-
-        // Quando
-        filmeFavoritoRepository.save(filmeFavorito);
-
-        // Então
-        Optional<FilmeFavorito> foundFilmeFavorito = filmeFavoritoRepository.findById(filmeFavorito.getId());
-        assertThat(foundFilmeFavorito.isPresent()).isTrue();
-        assertThat(foundFilmeFavorito.get().getId()).isEqualTo(1L);
-        assertThat(foundFilmeFavorito.get().getTmdbId()).isEqualTo(1L);
+     @Test
+    public void filmeFavorito_jaCadastrado_deveTerId() {
+         Assertions.assertNotNull(filmeFavorito.getId());
     }
 
-    @Test
-    public void quandoBuscarPorUsuarioId_entaoDeveRetornarFilmesFavoritos() {
-        // Dado
-        FilmeFavorito filmeFavorito1 = new FilmeFavorito();
-        filmeFavorito1.setId(1L);
-        filmeFavorito1.setTmdbId(1L);
-        filmeFavoritoRepository.save(filmeFavorito1);
 
-        FilmeFavorito filmeFavorito2 = new FilmeFavorito();
-        filmeFavorito2.setId(1L);
-        filmeFavorito2.setTmdbId(2L);
-        filmeFavoritoRepository.save(filmeFavorito2);
 
-        // Quando
-        List<FilmeFavorito> foundFilmesFavoritos = filmeFavoritoRepository.findByUsuarioId(1L);
+     @Test
+    public void filmeFavoritoJaCadastrado_pesquisoPorUsuarioId_deveRetornarFilmesFavoritos() {
+         List<FilmeFavorito> foundFilmes = filmeFavoritoRepository.findByUsuarioId(usuario.getId());
 
-        // Então
-        assertThat(foundFilmesFavoritos).hasSize(2);
-        assertThat(foundFilmesFavoritos.get(0).getId()).isEqualTo(1L);
-        assertThat(foundFilmesFavoritos.get(0).getTmdbId()).isEqualTo(1L);
-        assertThat(foundFilmesFavoritos.get(1).getId()).isEqualTo(1L);
-        assertThat(foundFilmesFavoritos.get(1).getTmdbId()).isEqualTo(2L);
+         Assertions.assertNotNull(foundFilmes);
+         Assertions.assertFalse(foundFilmes.isEmpty());
+         Assertions.assertEquals(filmeFavorito.getId(), foundFilmes.get(0).getId());
     }
 
-    @Test
-    public void quandoDeletarFilmeFavorito_entaoFilmeFavoritoNaoDeveExistir() {
-        // Dado
-        FilmeFavorito filmeFavorito = new FilmeFavorito();
-        filmeFavorito.setId(1L);
-        filmeFavorito.setTmdbId(1L);
-        filmeFavoritoRepository.save(filmeFavorito);
+     @Test
+    public void filmeFavoritoNaoCadastrado_pesquisoPorUsuarioId_deveRetornarVazio() {
+         List<FilmeFavorito> foundFilmes = filmeFavoritoRepository.findByUsuarioId(999L);
 
-        // Quando
-        filmeFavoritoRepository.delete(filmeFavorito);
-
-        // Então
-        Optional<FilmeFavorito> foundFilmeFavorito = filmeFavoritoRepository.findById(filmeFavorito.getId());
-        assertThat(foundFilmeFavorito.isPresent()).isFalse();
+         Assertions.assertNotNull(foundFilmes); Assertions.assertTrue(foundFilmes.isEmpty());
     }
+
+     @Test
+    public void filmeFavoritoJaCadastrado_pesquisoPorId_deveRetornar() {
+         Optional<FilmeFavorito> foundFilme = filmeFavoritoRepository.findById(filmeFavorito.getId());
+
+         Assertions.assertTrue(foundFilme.isPresent());
+         Assertions.assertEquals(filmeFavorito.getId(), foundFilme.get().getId());
+    }
+
+     @Test
+    public void filmeFavoritoNaoCadastrado_pesquisoPorId_deveRetornarVazio() {
+         Optional<FilmeFavorito> foundFilme = filmeFavoritoRepository.findById(999L);
+         Assertions.assertTrue(foundFilme.isEmpty());
+    }
+
 }

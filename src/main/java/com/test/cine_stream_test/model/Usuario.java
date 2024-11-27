@@ -22,7 +22,8 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String nome, String nickName, String email, String senha) {
+    public Usuario(Long id, String nome, String nickName, String email, String senha) {
+        this.id = id;
         this.nome = nome;
         this.nickName = nickName;
         this.email = email;
@@ -69,4 +70,3 @@ public class Usuario {
         this.nickName = nickName;
     }
 }
-

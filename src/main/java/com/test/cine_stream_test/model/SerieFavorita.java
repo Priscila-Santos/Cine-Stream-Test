@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class SerieFavorita {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long serieId;
     private Long tmdbId;
 
     @ManyToOne(optional = false)
@@ -14,12 +14,12 @@ public class SerieFavorita {
 
     public SerieFavorita() {}
 
-    public Long getId() {
-        return id;
+    public Long getSerieId() {
+        return serieId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSerieId(Long id) {
+        this.serieId = id;
     }
 
     public Long getTmdbId() {

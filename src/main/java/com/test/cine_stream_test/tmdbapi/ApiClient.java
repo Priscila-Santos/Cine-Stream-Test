@@ -34,18 +34,7 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<Page<TmdbFilme>>() {}
-        );
-        return response.getBody();
+        return getTmdbFilmePage(url);
     }
 
 
@@ -57,6 +46,10 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
+        return getTmdbFilmePage(url);
+    }
+
+    private Page<TmdbFilme> getTmdbFilmePage(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", apiKey));
 
@@ -95,6 +88,10 @@ public class ApiClient {
                 .path("/genre/movie/list")
                 .queryParam("language", "pt")
                 .toUriString();
+        return getTmdbListaGeneros(url);
+    }
+
+    private TmdbListaGeneros getTmdbListaGeneros(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", apiKey));
 
@@ -118,19 +115,7 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<Page<TmdbFilme>>() {}
-        );
-
-        return response.getBody();
+        return getTmdbFilmePage(url);
     }
 
 
@@ -142,6 +127,10 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
+        return getTmdbSeriePage(url);
+    }
+
+    private Page<TmdbSerie> getTmdbSeriePage(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", String.format("Bearer %s", apiKey));
 
@@ -165,19 +154,7 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<Page<TmdbSerie>>() {}
-        );
-
-        return response.getBody();
+        return getTmdbSeriePage(url);
     }
 
     public TmdbListaGeneros generosSeries() {
@@ -186,18 +163,7 @@ public class ApiClient {
                 .queryParam("language", "pt")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                TmdbListaGeneros.class
-        );
-        return response.getBody();
+        return getTmdbListaGeneros(url);
     }
 
     public Page<TmdbSerie> buscarSeriesPorAnoLancamento(String ano, Integer page) {
@@ -209,19 +175,7 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                new ParameterizedTypeReference<Page<TmdbSerie>>() {}
-        );
-
-        return response.getBody();
+        return getTmdbSeriePage(url);
     }
 
     public TmdbSerie buscarDetalhesSerie(Long id) {
@@ -249,18 +203,6 @@ public class ApiClient {
                 .queryParam("language", "pt-BR")
                 .toUriString();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", String.format("Bearer %s", apiKey));
-
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        var response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                entity,
-                TmdbListaGeneros.class
-        );
-
-        return response.getBody();
+        return getTmdbListaGeneros(url);
     }
 }
