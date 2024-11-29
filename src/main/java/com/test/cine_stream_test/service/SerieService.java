@@ -2,6 +2,7 @@ package com.test.cine_stream_test.service;
 
 import com.test.cine_stream_test.tmdbapi.ApiClient;
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbSerie;
 import com.test.cine_stream_test.dto.mapping.SerieFavoritaMapper;
 import com.test.cine_stream_test.dto.request.SerieFavoritaRequest;
@@ -15,13 +16,15 @@ import org.springframework.stereotype.Service;
 public class SerieService {
 
     private final SerieFavoritaRepository serieFavoritaRepository;
-    private final ApiClient tmdbClient;
     private final UsuarioService usuarioService;
+    private final ApiClient tmdbClient;
+    private final ApiClient apiClient;
 
-    public SerieService(SerieFavoritaRepository serieFavoritaRepository, ApiClient tmdbClient, UsuarioService usuarioService) {
+    public SerieService(SerieFavoritaRepository serieFavoritaRepository, UsuarioService usuarioService, ApiClient tmdbClient, ApiClient apiClient) {
         this.serieFavoritaRepository = serieFavoritaRepository;
-        this.tmdbClient = tmdbClient;
         this.usuarioService = usuarioService;
+        this.tmdbClient = tmdbClient;
+        this.apiClient = apiClient;
     }
 
     public Page<TmdbSerie> buscarTodasSeries(Integer page) {
@@ -38,4 +41,9 @@ public class SerieService {
         SerieFavorita serieFavorita = mapper.toEntity(serieFavoritaRequest, usuario);
         serieFavoritaRepository.save(serieFavorita);
     }
+
+    public TmdbListaGeneros buscarGeneros() {
+        return apiClient.generosFilmes();
+    }
+
 }

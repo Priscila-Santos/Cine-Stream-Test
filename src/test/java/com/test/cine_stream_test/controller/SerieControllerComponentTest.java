@@ -1,61 +1,87 @@
 package com.test.cine_stream_test.controller;
 
-
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
+import com.test.cine_stream_test.dto.request.SerieFavoritaRequest;
+import com.test.cine_stream_test.exception.NotFoundException;
+import com.test.cine_stream_test.service.SerieService;
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbSerie;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.Collections;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class SerieControllerComponentTest {
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-    @LocalServerPort
-    private int port;
+public class SerieControllerComponentTest {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
 
-    private static WireMockServer wireMockServer;
+    @Mock
+    private SerieService serieService;
 
-    @BeforeAll
-    static void setUp() {
-        wireMockServer = new WireMockServer(8081); // Porta diferente da aplicação
-        wireMockServer.start();
-        WireMock.configureFor("localhost", 8081);
-    }
+    @InjectMocks
+    private SerieController serieController;
 
-    @AfterAll
-    static void tearDown() {
-        wireMockServer.stop();
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(serieController).build();
     }
 
     @Test
-    void getTodasSeries_deveRetornarListaDeSeries() {
-        // dado
-        stubFor(get(urlPathEqualTo("/discover/serie"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", "application/json")
-                        .withBody("{\"page\":1,\"results\":[{\"id\":1,\"name\":\"Serie Exemplo\",\"overview\":\"Descrição da Serie\",\"poster_path\":\"/caminho/do/poster.jpg\"}],\"total_pages\":1,\"total_results\":1}")));
+    public void getTodasSeries_deveRetornarListaDeSeries() throws Exception {
+        Page<TmdbSerie> series = new Page<>();
+        series.setResults(Collections.singletonList(new TmdbSerie()));
+        when(serieService.buscarTodasSeries(1)).thenReturn(series);
 
-        // quando
-        ResponseEntity<Page> response = restTemplate.getForEntity("http://localhost:" + port + "/api/series/todos?page=1", Page.class);
+        mockMvc.perform(get("/series/all-series").param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.results").isArray());
+    }
 
-        // então
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(1, response.getBody().getResults().size());
+    @Test
+    public void getGenres_deveRetornarListaDeGeneros() throws Exception {
+        TmdbListaGeneros generos = new TmdbListaGeneros();
+        generos.setGenres(Collections.singletonList(new TmdbListaGeneros.Genre()));
+        when(serieService.buscarGeneros()).thenReturn(generos);
+
+        mockMvc.perform(get("/series/genres-series"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.genres").isArray());
+    }
+
+    @Test
+    public void buscarPorTitulo_deveRetornarListaDeSeries() throws Exception {
+        Page<TmdbSerie> series = new Page<>();
+        series.setResults(Collections.singletonList(new TmdbSerie()));
+        when(serieService.buscarSeriePorTitulo("Breaking Bad", 1)).thenReturn(series);
+
+        mockMvc.perform(get("/series").param("titulo", "Breaking Bad").param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.results").isArray());
+    }
+
+    @Test
+    public void adicionarSerieFavorita_deveRetornarStatusCreated() throws Exception {
+        SerieFavoritaRequest request = new SerieFavoritaRequest();
+        request.setIdUsuario(1L);
+        request.setIdSerie(101L);
+
+        mockMvc.perform(post("/series/favorita")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"idUsuario\": 1, \"tmdbId\": 101}"))
+                .andExpect(status().isCreated());
     }
 }

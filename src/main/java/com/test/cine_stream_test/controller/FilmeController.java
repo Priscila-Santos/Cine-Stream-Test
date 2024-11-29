@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/filmes")
 public class FilmeController {
     private final FilmeService filmeService;
 
@@ -19,7 +19,7 @@ public class FilmeController {
         this.filmeService = filmeService;
     }
 
-    @GetMapping("/filmes")
+    @GetMapping("/all-filmes")
     public ResponseEntity<Page<TmdbFilme>> getTodosFilme(
             @RequestParam(defaultValue = "1") Integer page
     ) {
@@ -27,7 +27,7 @@ public class FilmeController {
         return ResponseEntity.ok(filmes);
     }
 
-    @GetMapping("/genres")
+    @GetMapping("/genres-filmes")
     public ResponseEntity<TmdbListaGeneros> getGenres() {
         TmdbListaGeneros generos = filmeService.buscarGeneros();
         return ResponseEntity.ok(generos);

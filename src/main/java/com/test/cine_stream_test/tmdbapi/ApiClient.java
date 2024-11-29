@@ -12,21 +12,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 public class ApiClient {
+
     private final RestTemplate restTemplate;
+    private final String apiBaseUrl;
+    private final String apiKey;
 
-    @Value("${api.base.url}")
-    private String apiBaseUrl;
-
-    @Value("${api.key}")
-    private String apiKey;
-
-    public ApiClient() {
+    public ApiClient(@Value("${api.base.url}") String apiBaseUrl, @Value("${api.key}") String apiKey) {
         this.restTemplate = new RestTemplate();
+        this.apiBaseUrl = apiBaseUrl;
+        this.apiKey = apiKey;
     }
 
     // ENDPOINTS da API externa
 
-    //FILMES
+    // FILMES
     public Page<TmdbFilme> buscarTodosFilmes(Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
                 .path("discover/movie")
@@ -36,7 +35,6 @@ public class ApiClient {
 
         return getTmdbFilmePage(url);
     }
-
 
     public Page<TmdbFilme> buscarFilmesPorTitulo(String titulo, Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
@@ -56,10 +54,10 @@ public class ApiClient {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         var response = restTemplate.exchange(
-            url,
-            HttpMethod.GET,
-            entity,
-            new ParameterizedTypeReference<Page<TmdbFilme>>() {}
+                url,
+                HttpMethod.GET,
+                entity,
+                new ParameterizedTypeReference<Page<TmdbFilme>>() {}
         );
 
         return response.getBody();
@@ -88,6 +86,7 @@ public class ApiClient {
                 .path("/genre/movie/list")
                 .queryParam("language", "pt")
                 .toUriString();
+
         return getTmdbListaGeneros(url);
     }
 
@@ -118,11 +117,10 @@ public class ApiClient {
         return getTmdbFilmePage(url);
     }
 
-
     // SERIES
     public Page<TmdbSerie> buscarTodasSeries(Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
-                .path("discover/serie")
+                .path("discover/tv")
                 .queryParam("page", page)
                 .queryParam("language", "pt-BR")
                 .toUriString();
@@ -196,7 +194,7 @@ public class ApiClient {
         return response.getBody();
     }
 
-    //buscar por genero na api
+    // Buscar por gênero na API
     public TmdbListaGeneros buscarGeneros() {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
                 .path("/genre")
