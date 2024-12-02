@@ -1,8 +1,16 @@
 package com.test.cine_stream_test.dto.request;
 
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.boot.context.properties.bind.Name;
+
 public class UsuarioRequest {
+
+    @NotNull
     private String nome;
+
     private String nickname;
+
+    @NotNull
     private String email;
 
     public UsuarioRequest() {}

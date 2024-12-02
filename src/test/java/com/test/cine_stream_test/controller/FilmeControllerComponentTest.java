@@ -56,7 +56,7 @@ public class FilmeControllerComponentTest {
         generos.setGenres(Collections.singletonList(new TmdbListaGeneros.Genre("Ação", 1)));
         when(filmeService.buscarGeneros()).thenReturn(generos);
 
-        mockMvc.perform(get("/filmes/genres"))
+        mockMvc.perform(get("/filmes/genres-filmes"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.genres").isArray());
