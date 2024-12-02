@@ -1,6 +1,5 @@
 //package com.test.cine_stream_test.tmdbapi;
 //
-//import com.github.tomakehurst.wiremock.client.WireMock;
 //import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 //import com.test.cine_stream_test.config.WiremockExtensionConfig;
 //import com.test.cine_stream_test.tmdbapi.dto.response.Page;
@@ -14,14 +13,13 @@
 //import org.mockito.MockitoAnnotations;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.http.HttpHeaders;
 //import org.springframework.http.MediaType;
 //
 //import static com.github.tomakehurst.wiremock.client.WireMock.*;
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 //
-//@ExtendWith(WiremockExtensionConfig.class)
+//@ExtendWith(WireMockExtension.class)
 //@SpringBootTest
 //public class ApiClientTest {
 //
@@ -37,11 +35,9 @@
 //    @BeforeEach
 //    public void setup() {
 //        MockitoAnnotations.openMocks(this);
-//        WireMock.configureFor("localhost", 8282);
+//        configureFor("localhost", 8080);
 //        reset();
 //    }
-//
-//
 //
 //    @Test
 //    public void buscarFilmesPorTitulo_deveRetornarListaDeFilmes() {
@@ -96,7 +92,7 @@
 //
 //    @Test
 //    public void buscarTodasSeries_deveRetornarListaDeSeries() {
-//        stubFor(get(urlPathEqualTo("/discover/serie"))
+//        stubFor(get(urlPathEqualTo("/discover/tv"))
 //                .withQueryParam("page", equalTo("1"))
 //                .withQueryParam("language", equalTo("pt-BR"))
 //                .withHeader("Authorization", containing("Bearer " + apiKey))
@@ -162,6 +158,4 @@
 //        assertEquals(1, generos.getGenres().size());
 //        assertEquals("Action", generos.getGenres().get(0).getName());
 //    }
-//
-//    // Adicione mais testes conforme necessário
 //}
