@@ -1,19 +1,15 @@
-package com.test.cine_stream_test.model;
+package com.test.cine_stream_test.dto.response;
 
-import jakarta.persistence.*;
-
-@Entity
-public class FilmeFavorito {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SerieFavoritaResponse {
     private Long id;
     private Long tmdbId;
     private String titulo;
 
-    @ManyToOne(optional = false)
-    private Usuario usuario;
-
-    public FilmeFavorito () {}
+    public SerieFavoritaResponse(Long id, Long tmdbId, String titulo) {
+        this.id = id;
+        this.tmdbId = tmdbId;
+        this.titulo = titulo;
+    }
 
     public Long getId() {
         return id;
@@ -31,14 +27,6 @@ public class FilmeFavorito {
         this.tmdbId = tmdbId;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
     public String getTitulo() {
         return titulo;
     }
@@ -47,3 +35,4 @@ public class FilmeFavorito {
         this.titulo = titulo;
     }
 }
+

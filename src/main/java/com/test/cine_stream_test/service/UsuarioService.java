@@ -1,5 +1,7 @@
 package com.test.cine_stream_test.service;
 
+import com.test.cine_stream_test.dto.response.FilmeFavoritoResponse;
+import com.test.cine_stream_test.dto.response.SerieFavoritaResponse;
 import com.test.cine_stream_test.tmdbapi.ApiClient;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbSerie;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UsuarioService {
@@ -73,6 +76,19 @@ public class UsuarioService {
                 .orElseThrow(() -> new NotFoundException(String.format(
                         "Id %s não encontrado", id
                 )));
+    }
+
+    public List<FilmeFavoritoResponse> buscarFilmesFavoritos(Long id) throws NotFoundException {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+        return usuario.getFilmesFavoritos().stream()
+                .map(filmeFavorito -> new FilmeFavoritoResponse(filmeFavorito.getId(), filmeFavorito.getTmdbId(), filmeFavorito.getTitulo()))
+                .collect(Collectors.toList());
+    }
+
+    public List<SerieFavoritaResponse> buscarSeriesFavoritas(Long id) throws NotFoundException {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
+        return usuario.getSeriesFavoritas().stream() .map(serieFavorita -> new SerieFavoritaResponse(serieFavorita.getSerieId(),
+                serieFavorita.getTmdbId(), serieFavorita.getTitulo())) .collect(Collectors.toList());
     }
 
 

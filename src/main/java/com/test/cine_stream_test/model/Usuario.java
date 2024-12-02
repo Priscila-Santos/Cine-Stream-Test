@@ -1,10 +1,9 @@
 package com.test.cine_stream_test.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -17,6 +16,12 @@ public class Usuario {
     private String nickName;
     private String email;
     private String senha;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<FilmeFavorito> filmesFavoritos;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<SerieFavorita> seriesFavoritas;
 
     // Construtores, getters e setters
     public Usuario() {
@@ -68,5 +73,21 @@ public class Usuario {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public List<FilmeFavorito> getFilmesFavoritos() {
+        return filmesFavoritos;
+    }
+
+    public void setFilmesFavoritos(List<FilmeFavorito> filmesFavoritos) {
+        this.filmesFavoritos = filmesFavoritos;
+    }
+
+    public List<SerieFavorita> getSeriesFavoritas() {
+        return seriesFavoritas;
+    }
+
+    public void setSeriesFavoritas(List<SerieFavorita> seriesFavoritas) {
+        this.seriesFavoritas = seriesFavoritas;
     }
 }

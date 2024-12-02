@@ -8,6 +8,7 @@ public class SerieFavorita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long serieId;
     private Long tmdbId;
+    private String titulo;
 
     @ManyToOne(optional = false)
     private Usuario usuario;
@@ -36,5 +37,13 @@ public class SerieFavorita {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 }
