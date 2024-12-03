@@ -19,7 +19,7 @@ public class SerieFavoritaMapperTest {
 
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNome("Jane Doe");
+        usuario.setNome("Priscila Santos");
 
         // Act
         SerieFavorita serieFavorita = mapper.toEntity(request, usuario);
@@ -29,6 +29,6 @@ public class SerieFavoritaMapperTest {
         assertEquals(67890L, serieFavorita.getTmdbId());
         assertNotNull(serieFavorita.getUsuario());
         assertEquals(1L, serieFavorita.getUsuario().getId());
-        assertEquals("Jane Doe", serieFavorita.getUsuario().getNome());
+        assertEquals("Priscila Santos", serieFavorita.getUsuario().getNome());
     }
 }

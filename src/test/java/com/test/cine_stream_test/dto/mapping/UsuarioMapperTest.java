@@ -39,9 +39,9 @@ public class UsuarioMapperTest {
         UsuarioMapper mapper = new UsuarioMapper();
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNome("Jane Doe");
-        usuario.setNickName("jdoe");
-        usuario.setEmail("jane.doe@example.com");
+        usuario.setNome("Priscila  Santos");
+        usuario.setNickName("pri");
+        usuario.setEmail("priscila@example.com");
 
         TmdbFilme filme = new TmdbFilme("Inception", "A mind-bending thriller", "2010-07-16", 8.8, "/posterPath.jpg", 100L);
         List<TmdbFilme> filmesFavoritos = Collections.singletonList(filme);
@@ -54,9 +54,9 @@ public class UsuarioMapperTest {
         // quando
         assertNotNull(dto);
         assertEquals(1L, dto.getId().longValue());
-        assertEquals("Jane Doe", dto.getNome());
-        assertEquals("jdoe", dto.getNickname());
-        assertEquals("jane.doe@example.com", dto.getEmail());
+        assertEquals("Priscila  Santos", dto.getNome());
+        assertEquals("pri", dto.getNickname());
+        assertEquals("priscila@example.com", dto.getEmail());
         assertNotNull(dto.getFilmesFavoritos());
         assertEquals(1, dto.getFilmesFavoritos().size());
         assertEquals(100L, dto.getFilmesFavoritos().get(0).getId().longValue());

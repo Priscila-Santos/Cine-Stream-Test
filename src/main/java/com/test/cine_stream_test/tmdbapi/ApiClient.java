@@ -9,6 +9,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
+
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class ApiClient {
@@ -146,9 +149,8 @@ public class ApiClient {
     public Page<TmdbSerie> buscarSeriesPorTitulo(String titulo, Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
                 .path("/search/tv")
-                .queryParam("api_key", apiKey)
-                .queryParam("query", titulo)
                 .queryParam("page", page)
+                .queryParam("query", titulo)
                 .queryParam("language", "pt-BR")
                 .toUriString();
 

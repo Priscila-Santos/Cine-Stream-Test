@@ -1,0 +1,19 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 1,
+      "title": "Inception",
+      "overview": "A mind-bending thriller",
+      "poster_path": "/posterPath1.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Inception 2",
+      "overview": "A sequel to the mind-bending thriller",
+      "poster_path": "/posterPath2.jpg"
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 2
+}

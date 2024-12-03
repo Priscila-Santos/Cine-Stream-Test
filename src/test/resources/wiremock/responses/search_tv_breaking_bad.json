@@ -1,0 +1,19 @@
+{
+  "page": 1,
+  "results": [
+    {
+      "id": 1,
+      "name": "Breaking Bad",
+      "overview": "A high school chemistry teacher turned methamphetamine producer.",
+      "poster_path": "/posterPath.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Breaking Bad: The Return",
+      "overview": "A sequel to the story of the high school chemistry teacher turned methamphetamine producer.",
+      "poster_path": "/posterPath2.jpg"
+    }
+  ],
+  "total_pages": 1,
+  "total_results": 2
+}
