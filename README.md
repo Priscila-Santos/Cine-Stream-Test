@@ -1,19 +1,18 @@
-# **CineStream Testes**
+# **Cine Stream Testes**
 
 Bem-vindo ao projeto de testes do CineStream! Este projeto contém testes automatizados para a API do CineStream, utilizando ferramentas como RestAssured, WireMock e JUnit.
 
 ## **Sumário**
 - [Descrição](#descrição)
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [Pré-requisitos](#pré-requisitos)
-- [Instalação](#instalação)
+- [Projeto Cine Stream Cucumber Test](#Projeto-Cine-Stream-Cucumber-Test)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Como Executar os Testes](#como-executar-os-testes)
     - [Testes Unitários](#testes-unitários)
     - [Testes de Integração](#testes-de-integração)
     - [Testes End-to-End](#testes-end-to-end)
 - [Mock de Componentes](#mock-de-componentes)
-- [Contribuição](#contribuição)
+
 
 
 ## **Descrição**
@@ -24,16 +23,13 @@ Este projeto foi desenvolvido para testar a API do CineStream, garantindo que os
 - **Spring Boot 3.4.0**
 - **RestAssured**: Para testes de API REST.
 - **WireMock**: Para simular respostas de APIs externas.
+- **Cucumber**: Para testes de aceitação.
 - **JUnit 5**: Para execução de testes.
 - **Mockito**: Para criação de mocks nos testes unitários.
 
-## **Pré-requisitos**
-Antes de começar, você precisará ter o seguinte instalado:
-- **Java JDK 21**
-- **Maven 3.9.9**
-
-## **Instalação**
-Siga os passos abaixo para configurar o projeto localmente:
+## **Projeto Cine Stream Cucumber Test**
+#### **Repositório do projeto** [Cine Stream](https://github.com/Priscila-Santos/Spring-CineStream)
+#### **Repositório do projeto** [Cine Stream Cucumber Testes](https://github.com/Priscila-Santos/CineStream-CucumberTest)
 
 1. Clone o repositório:
    ```bash
