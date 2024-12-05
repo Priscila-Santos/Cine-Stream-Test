@@ -180,18 +180,4 @@ public class ApiClientTest {
         assertEquals("Action", generos.getGenres().get(0).getName());
     }
 
-//    @Test
-//    public void buscarFilmesPorAnoLancamento_deveRetornarFilmesCorrespondentes() throws Exception {
-//        WireMock.configureFor(8282);
-//        String ano = "2010";
-//        String jsonResponse = new String(Files.readAllBytes(Paths.get("src/test/resources/wiremock/responses/search_movie_inception.json")));
-//
-//        stubFor(get(urlPathEqualTo("/search/movie"))
-//                .withQueryParam("page", equalTo("1"))
-//                .withQueryParam("query", equalTo(" "))
-//                .withQueryParam("year", equalTo(ano))
-//                .withQueryParam("language", equalTo("pt-BR"))
-//                .withHeader("Authorization", containing("Bearer " + apiClient.apiKey))
-//                .will
-
 }
