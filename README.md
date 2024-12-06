@@ -231,9 +231,6 @@ Buscar Filmes por Título.
 **Buscar Filmes Por Gêneros** O método generosFilmes consulta o endpoint /genre/movie/list para obter uma lista de gêneros disponíveis para filmes. Para séries, o método é semelhante. 
 **Buscar Filmes por Ano de Lançamento** O método buscarFilmesPorAnoLancamento realiza uma busca de filmes com base no ano de lançamento, consultando o mesmo endpoint /search/movie e filtrando os resultados por ano.
 
-termine o readme do meu projeto falando do Data Transfer Objects (DTOs) e demais topicos
-Claro, aqui está a continuação e conclusão do README do seu projeto, abordando os Data Transfer Objects (DTOs) e demais tópicos:
-
 Projeto CineStream
 Descrição
 O CineStream é uma aplicação que utiliza a API pública do TMDb para buscar informações de filmes e séries, e armazena dados temporariamente usando o banco de dados em memória H2. Este README explica como foi feito o consumo da API externa e a persistência dos dados.
