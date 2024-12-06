@@ -232,7 +232,7 @@ Buscar Filmes por Título.
 **Buscar Filmes por Ano de Lançamento** O método buscarFilmesPorAnoLancamento realiza uma busca de filmes com base no ano de lançamento, consultando o mesmo endpoint /search/movie e filtrando os resultados por ano.
 
 Projeto CineStream
-Descrição
+
 O CineStream é uma aplicação que utiliza a API pública do TMDb para buscar informações de filmes e séries, e armazena dados temporariamente usando o banco de dados em memória H2. Este README explica como foi feito o consumo da API externa e a persistência dos dados.
 
 Configuração do Banco de Dados H2
@@ -267,14 +267,14 @@ Abaixo estão os métodos principais implementados para consumir a API do TMDb, 
 
 Buscar Filmes por Título Este método, buscarFilmesPorTitulo, consulta o endpoint /search/movie para buscar filmes de acordo com o título fornecido. Ele recebe o título e o número da página como parâmetros.
 
-java
-public Page<TmdbFilme> buscarFilmesPorTitulo(String titulo, Integer page) {
-String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
-.path("/search/movie")
-.queryParam("page", page)
-.queryParam("query", titulo)
-.queryParam("language", "pt-BR")
-.toUriString();
+
+    public Page<TmdbFilme> buscarFilmesPorTitulo(String titulo, Integer page) {
+    String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
+    .path("/search/movie")
+    .queryParam("page", page)
+    .queryParam("query", titulo)
+    .queryParam("language", "pt-BR")
+    .toUriString();
 
     HttpHeaders headers = new HttpHeaders();
     headers.add("Authorization", String.format("Bearer %s", apiKey));
@@ -290,13 +290,13 @@ String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
 
     return response.getBody();
     }
-Parâmetros: titulo (título do filme) e page (número da página). Cabeçalhos de Autenticação: O token da API é incluído no cabeçalho Authorization usando o formato Bearer. Resposta: Retorna um objeto Page<TmdbFilme> com os dados dos filmes correspondentes.
+**Parâmetros**: titulo (título do filme) e page (número da página). Cabeçalhos de Autenticação: O token da API é incluído no cabeçalho Authorization usando o formato Bearer. Resposta: Retorna um objeto Page<TmdbFilme> com os dados dos filmes correspondentes.
 
-Buscar Series por Título O método buscarSeriesPorTitulo é similar ao anterior, mas consulta o endpoint /search/tv para buscar séries de acordo com o título fornecido, retornando um objeto Page<TmdbSerie> com os dados das séries correspondentes.
+**Buscar Series por Título**: O método buscarSeriesPorTitulo é similar ao anterior, mas consulta o endpoint /search/tv para buscar séries de acordo com o título fornecido, retornando um objeto Page<TmdbSerie> com os dados das séries correspondentes.
 
-Buscar Filmes Por Gêneros O método generosFilmes consulta o endpoint /genre/movie/list para obter uma lista de gêneros disponíveis para filmes. Para séries, o método é semelhante.
+**Buscar Filmes Por Gêneros**: O método generosFilmes consulta o endpoint /genre/movie/list para obter uma lista de gêneros disponíveis para filmes. Para séries, o método é semelhante.
 
-Buscar Filmes por Ano de Lançamento O método buscarFilmesPorAnoLancamento realiza uma busca de filmes com base no ano de lançamento, consultando o mesmo endpoint /search/movie e filtrando os resultados por ano.
+**Buscar Filmes por Ano de Lançamento**: O método buscarFilmesPorAnoLancamento realiza uma busca de filmes com base no ano de lançamento, consultando o mesmo endpoint /search/movie e filtrando os resultados por ano.
 
 ## Data Transfer Objects (DTOs)
 No projeto CineStream, os DTOs (Data Transfer Objects) desempenham um papel essencial na comunicação entre as camadas internas da aplicação e a camada de API que interage com o cliente. Eles facilitam o transporte de dados entre a API do TMDb, a lógica de negócios e as respostas enviadas aos usuários.
