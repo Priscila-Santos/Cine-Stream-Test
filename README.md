@@ -31,6 +31,8 @@ Este projeto foi desenvolvido para testar a API do CineStream, garantindo que os
 ## **Projeto Cine Stream Cucumber Test**
 #### **Repositório do projeto** [Cine Stream](https://github.com/Priscila-Santos/Spring-CineStream)
 #### **Repositório do projeto** [Cine Stream Cucumber Testes](https://github.com/Priscila-Santos/CineStream-CucumberTest)
+#### **Repositório do projeto** [Cine Stream Front-End](https://github.com/Priscila-Santos/cine-stream-front)
+
 
 1. Clone o repositório:
    ```bash
