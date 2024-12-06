@@ -200,7 +200,7 @@ Abaixo estão os métodos principais implementados para consumir a API do TMDb, 
 Buscar Filmes por Título. 
 
 
-    ```java
+    
     public Page<TmdbFilme> buscarFilmesPorTitulo(String titulo, Integer page) {
     String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
     .path("/search/movie")
@@ -231,14 +231,10 @@ Buscar Filmes por Título.
 **Buscar Filmes Por Gêneros** O método generosFilmes consulta o endpoint /genre/movie/list para obter uma lista de gêneros disponíveis para filmes. Para séries, o método é semelhante. 
 **Buscar Filmes por Ano de Lançamento** O método buscarFilmesPorAnoLancamento realiza uma busca de filmes com base no ano de lançamento, consultando o mesmo endpoint /search/movie e filtrando os resultados por ano.
 
-Projeto CineStream
-
-O CineStream é uma aplicação que utiliza a API pública do TMDb para buscar informações de filmes e séries, e armazena dados temporariamente usando o banco de dados em memória H2. Este README explica como foi feito o consumo da API externa e a persistência dos dados.
-
 Configuração do Banco de Dados H2
 A aplicação usa o banco de dados H2 para persistir dados em memória durante a execução. No arquivo application.properties, as configurações do H2 estão definidas como segue:
-
 properties
+
 # Configuração do banco de dados H2
 spring.datasource.url=jdbc:h2:mem:test
 spring.datasource.driverClassName=org.h2.Driver
@@ -256,9 +252,8 @@ Consumo da API do TMDb
 A aplicação consome dados da API do TMDb através da classe ApiClient. Esta classe utiliza o RestTemplate do Spring para fazer requisições HTTP aos endpoints do TMDb. Abaixo estão alguns dos principais métodos e explicações de como foi feita a integração.
 
 Configurações da API
-As configurações da URL base da API e da chave de acesso estão definidas no arquivo application.properties:
+As configurações da URL base da API e da chave de acesso estão definidas no arquivo application.properties
 
-properties
 # Configuração da API TMDb
 api.base.url=https://api.themoviedb.org/3
 api.key=<chave_api>
