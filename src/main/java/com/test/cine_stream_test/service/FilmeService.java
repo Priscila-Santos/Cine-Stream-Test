@@ -3,6 +3,7 @@ package com.test.cine_stream_test.service;
 import com.test.cine_stream_test.tmdbapi.ApiClient;
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbGenero;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
 import com.test.cine_stream_test.dto.mapping.FilmeFavoritoMapper;
 import com.test.cine_stream_test.dto.request.FilmeFavoritoRequest;
@@ -28,7 +29,7 @@ public class FilmeService {
     }
 
     public Page<TmdbFilme> buscarTodosFilmes(Integer page) {
-        return tmdbClient.buscarTodosFilmes(page);
+        return apiClient.buscarTodosFilmes(page);
     }
 
     public Page<TmdbFilme> buscarFilmePorTitulo(String titulo, Integer page) {
@@ -47,4 +48,7 @@ public class FilmeService {
     public TmdbListaGeneros buscarGeneros() {
         return apiClient.generosFilmes();
     }
+
+    public Page<TmdbFilme> buscarFilmesPorGenero(Integer genreId, Integer page) { return apiClient.buscarFilmesPorGenero(genreId, page);}
+
 }

@@ -1,5 +1,6 @@
 package com.test.cine_stream_test.tmdbapi;
 
+import com.test.cine_stream_test.exception.NotFoundException;
 import com.test.cine_stream_test.tmdbapi.dto.response.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -31,7 +32,7 @@ public class ApiClient {
     // FILMES
     public Page<TmdbFilme> buscarTodosFilmes(Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
-                .path("discover/movie")
+                .path("/discover/movie")
                 .queryParam("page", page)
                 .queryParam("language", "pt-BR")
                 .toUriString();
@@ -84,6 +85,7 @@ public class ApiClient {
         return response.getBody();
     }
 
+
     public TmdbListaGeneros generosFilmes() {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
                 .path("/genre/movie/list")
@@ -92,6 +94,32 @@ public class ApiClient {
 
         return getTmdbListaGeneros(url);
     }
+
+//    public Page<TmdbFilme> buscarFilmesPorNomeGenero(String genreName, Integer page) throws NotFoundException {
+//        // Primeiro, buscar a lista de gêneros para encontrar o ID correspondente
+//        TmdbListaGeneros generos = buscarGeneros();
+//        Integer genreId = generos.getGenres().stream()
+//                .filter(g -> g.getName().equalsIgnoreCase(genreName))
+//                .map(g -> g.getId())
+//                .findFirst()
+//                .orElseThrow(() -> new NotFoundException("Gênero não encontrado: " + genreName));
+//
+//        // Agora, faça a busca usando o ID do gênero
+//        return buscarFilmesPorGenero(genreId, page);
+//    }
+
+    public Page<TmdbFilme> buscarFilmesPorGenero(Integer genreId, Integer page) {
+        String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
+                .path("/discover/movie")
+                .queryParam("with_genres", genreId)
+                .queryParam("page", page)
+                .queryParam("language", "pt-BR")
+                .toUriString();
+
+        return getTmdbFilmePage(url);
+    }
+
+
 
     private TmdbListaGeneros getTmdbListaGeneros(String url) {
         HttpHeaders headers = new HttpHeaders();
@@ -123,7 +151,7 @@ public class ApiClient {
     // SERIES
     public Page<TmdbSerie> buscarTodasSeries(Integer page) {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
-                .path("discover/tv")
+                .path("/discover/tv")
                 .queryParam("page", page)
                 .queryParam("language", "pt-BR")
                 .toUriString();
