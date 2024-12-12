@@ -2,6 +2,7 @@ package com.test.cine_stream_test.service;
 
 import com.test.cine_stream_test.tmdbapi.ApiClient;
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbSerie;
 import com.test.cine_stream_test.dto.mapping.SerieFavoritaMapper;
@@ -43,7 +44,16 @@ public class SerieService {
     }
 
     public TmdbListaGeneros buscarGeneros() {
-        return apiClient.generosFilmes();
+        return apiClient.generosSeries();
     }
+
+    public Page<TmdbSerie> buscarSeriesPorGenero(Integer genreId, Integer page) {
+        return apiClient.buscarSeriesPorGenero(genreId, page);
+    }
+
+    public TmdbSerie buscarDetalhesSerie(Long id) {
+        return  apiClient.buscarDetalhesSerie(id);
+    }
+
 
 }

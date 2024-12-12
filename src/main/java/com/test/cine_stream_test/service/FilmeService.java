@@ -1,10 +1,7 @@
 package com.test.cine_stream_test.service;
 
 import com.test.cine_stream_test.tmdbapi.ApiClient;
-import com.test.cine_stream_test.tmdbapi.dto.response.Page;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbGenero;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
+import com.test.cine_stream_test.tmdbapi.dto.response.*;
 import com.test.cine_stream_test.dto.mapping.FilmeFavoritoMapper;
 import com.test.cine_stream_test.dto.request.FilmeFavoritoRequest;
 import com.test.cine_stream_test.exception.NotFoundException;
@@ -50,5 +47,9 @@ public class FilmeService {
     }
 
     public Page<TmdbFilme> buscarFilmesPorGenero(Integer genreId, Integer page) { return apiClient.buscarFilmesPorGenero(genreId, page);}
+
+    public TmdbFilme buscarDetalhesFilme(Long id) {
+        return  apiClient.buscarDetalhesFilme(id);
+    }
 
 }

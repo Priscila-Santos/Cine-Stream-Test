@@ -1,6 +1,7 @@
 package com.test.cine_stream_test.controller;
 
 import com.test.cine_stream_test.tmdbapi.dto.response.Page;
+import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
 import com.test.cine_stream_test.tmdbapi.dto.response.TmdbSerie;
 import com.test.cine_stream_test.dto.request.SerieFavoritaRequest;
@@ -27,6 +28,12 @@ public class SerieController {
         return ResponseEntity.ok(series);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<TmdbSerie> getSerieById(@PathVariable Long id) {
+        TmdbSerie serie = serieService.buscarDetalhesSerie(id);
+        return ResponseEntity.ok(serie);
+    }
+
     @GetMapping("/genres-series")
     public ResponseEntity<TmdbListaGeneros> getGenres() {
         TmdbListaGeneros generos = serieService.buscarGeneros();
@@ -39,6 +46,15 @@ public class SerieController {
             @RequestParam(defaultValue = "1") Integer page
     ) {
         Page<TmdbSerie> series = serieService.buscarSeriePorTitulo(titulo, page);
+        return ResponseEntity.ok(series);
+    }
+
+    @GetMapping("/por-genero")
+    public ResponseEntity<Page<TmdbSerie>> getSeriesPorGenero(
+            @RequestParam Integer genreId,
+            @RequestParam(defaultValue = "1") Integer page
+    ) {
+        Page<TmdbSerie> series = serieService.buscarSeriesPorGenero(genreId, page);
         return ResponseEntity.ok(series);
     }
 

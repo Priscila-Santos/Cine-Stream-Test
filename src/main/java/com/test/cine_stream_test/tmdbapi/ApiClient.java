@@ -185,6 +185,17 @@ public class ApiClient {
         return getTmdbSeriePage(url);
     }
 
+    public Page<TmdbSerie> buscarSeriesPorGenero(Integer genreId, Integer page) {
+        String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
+                .path("/discover/tv")
+                .queryParam("with_genres", genreId)
+                .queryParam("page", page)
+                .queryParam("language", "pt-BR")
+                .toUriString();
+
+        return getTmdbSeriePage(url);
+    }
+
     public TmdbListaGeneros generosSeries() {
         String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
                 .path("/genre/tv/list")
@@ -224,13 +235,4 @@ public class ApiClient {
         return response.getBody();
     }
 
-    // Buscar por gênero na API
-    public TmdbListaGeneros buscarGeneros() {
-        String url = UriComponentsBuilder.fromHttpUrl(apiBaseUrl)
-                .path("/genre")
-                .queryParam("language", "pt-BR")
-                .toUriString();
-
-        return getTmdbListaGeneros(url);
-    }
 }

@@ -1,9 +1,6 @@
 package com.test.cine_stream_test.controller;
 
-import com.test.cine_stream_test.tmdbapi.dto.response.Page;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbFilme;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbGenero;
-import com.test.cine_stream_test.tmdbapi.dto.response.TmdbListaGeneros;
+import com.test.cine_stream_test.tmdbapi.dto.response.*;
 import com.test.cine_stream_test.dto.request.FilmeFavoritoRequest;
 import com.test.cine_stream_test.exception.NotFoundException;
 import com.test.cine_stream_test.service.FilmeService;
@@ -26,6 +23,12 @@ public class FilmeController {
     ) {
         Page<TmdbFilme> filmes = filmeService.buscarTodosFilmes(page);
         return ResponseEntity.ok(filmes);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TmdbFilme> getFilmeById(@PathVariable Long id) {
+        TmdbFilme filme = filmeService.buscarDetalhesFilme(id);
+        return ResponseEntity.ok(filme);
     }
 
     @GetMapping("/genres-filmes")
