@@ -14,6 +14,10 @@ import com.test.cine_stream_test.model.Usuario;
 import com.test.cine_stream_test.repository.FilmeFavoritoRepository;
 import com.test.cine_stream_test.repository.SerieFavoritaRepository;
 import com.test.cine_stream_test.repository.UsuarioRepository;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -28,13 +32,15 @@ public class UsuarioService {
     private final ApiClient apiClient;
     private final FilmeFavoritoRepository filmeFavoritoRepository;
     private final SerieFavoritaRepository serieFavoritaRepository;
+    private final PasswordEncoder password;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, ApiClient apiClient, FilmeFavoritoRepository filmeFavoritoRepository, SerieFavoritaRepository serieFavoritaRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, ApiClient apiClient, FilmeFavoritoRepository filmeFavoritoRepository, SerieFavoritaRepository serieFavoritaRepository, PasswordEncoder password) {
         this.usuarioRepository = usuarioRepository;
         this.apiClient = apiClient;
         this.filmeFavoritoRepository = filmeFavoritoRepository;
         this.serieFavoritaRepository = serieFavoritaRepository;
         this.usuarioMapper = new UsuarioMapper();
+        this.password = password;
     }
 
     public UsuarioResponse criar(UsuarioRequest usuarioRequest) throws AlreadyExistsException {
@@ -89,6 +95,13 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new NotFoundException("Usuário não encontrado"));
         return usuario.getSeriesFavoritas().stream() .map(serieFavorita -> new SerieFavoritaResponse(serieFavorita.getSerieId(),
                 serieFavorita.getTmdbId(), serieFavorita.getTitulo())) .collect(Collectors.toList());
+    }
+
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Usuário com email %s não encontrado'", email)));
+
+        return new User(usuario.getEmail(), usuario.getSenha(), Collections.emptyList());
     }
 
 
